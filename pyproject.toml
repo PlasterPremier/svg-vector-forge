@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "svg-vector-forge"
+version = "0.9.4"
+description = "Plugin-host AI vector / SVG generator for Windows desktop — raster-to-vector, prompt-to-SVG, path optimization."
+readme = "docs/ARCHITECTURE.md"
+requires-python = ">=3.11"
+authors = [{ name = "svg-vector-forge maintainers" }]
+license = { text = "MIT" }
+keywords = ["svg", "vector", "ai", "vtracer", "potrace", "vectorization", "diffvg", "plugin-host"]
+dependencies = [
+    "numpy>=1.26",
+    "Pillow>=10.2",
+    "pydantic>=2.6",
+    "PySide6>=6.6",
+    "svgpathtools>=1.6",
+    "lxml>=5.1",
+    "watchdog>=4.0",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+gpu = ["torch>=2.2", "onnxruntime-gpu>=1.17"]
+cpu = ["onnxruntime>=1.17"]
+dev = ["pytest>=8.0", "pytest-qt>=4.4", "ruff>=0.3", "mypy>=1.9"]
+
+[project.scripts]
+vecforge = "vectorforge.bootstrap.cli:main"
+vecforge-gui = "vectorforge.bootstrap.desktop:main"
+
+[project.entry-points."vectorforge.plugins"]
+vtrace = "vectorforge.extensions.vtrace_plugin:VTracePlugin"
+diffvg = "vectorforge.extensions.diffvg_plugin:DiffVGPlugin"
+prompt2svg = "vectorforge.extensions.prompt2svg_plugin:Prompt2SVGPlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
