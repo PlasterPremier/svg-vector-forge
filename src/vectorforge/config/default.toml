@@ -1,0 +1,14 @@
+# svg-vector-forge default config
+[host]
+require_signed_plugins = false
+autoload_entry_points = true
+max_parallel_jobs = 4
+
+[render]
+default_palette_size = 16
+default_simplify_tolerance = 1.5
+default_mode = "spline"
+
+[logging]
+level = "INFO"
+file = "%LOCALAPPDATA%/vectorforge/vectorforge.log"
